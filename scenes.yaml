@@ -1,0 +1,960 @@
+- id: '1693795256287'
+  name: Early morning
+  entities:
+    light.kitchen_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 99
+      color_temp_kelvin: 3496
+      color_temp: 286
+      hs_color:
+      - 27.177
+      - 44.861
+      rgb_color:
+      - 255
+      - 192
+      - 140
+      xy_color:
+      - 0.455
+      - 0.374
+      friendly_name: Kitchen 1
+      supported_features: 0
+      state: 'on'
+    light.kitchen_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 99
+      color_temp_kelvin: 3496
+      color_temp: 286
+      hs_color:
+      - 27.177
+      - 44.861
+      rgb_color:
+      - 255
+      - 192
+      - 140
+      xy_color:
+      - 0.455
+      - 0.374
+      friendly_name: Kitchen 2
+      supported_features: 0
+      state: 'on'
+    light.kitchen_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 99
+      color_temp_kelvin: 3496
+      color_temp: 286
+      hs_color:
+      - 27.177
+      - 44.861
+      rgb_color:
+      - 255
+      - 192
+      - 140
+      xy_color:
+      - 0.455
+      - 0.374
+      friendly_name: Kitchen 3
+      supported_features: 0
+      state: 'on'
+    light.kitchen_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 99
+      color_temp_kelvin: 3496
+      color_temp: 286
+      hs_color:
+      - 27.177
+      - 44.861
+      rgb_color:
+      - 255
+      - 192
+      - 140
+      xy_color:
+      - 0.455
+      - 0.374
+      friendly_name: Kitchen 4
+      supported_features: 0
+      state: 'on'
+    light.sink_light_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: SInk light
+      supported_features: 0
+      state: 'off'
+    switch.counter_switch_1:
+      device_class: outlet
+      friendly_name: Counter Switch 1
+      state: 'on'
+    light.breakfast_area_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Breakfast area lights
+      supported_features: 0
+      state: 'off'
+    light.hall_closet_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Closet
+      supported_features: 0
+      state: 'off'
+    light.hallway_lights:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - Bedtime
+      - Candlelight
+      - Cool white
+      - Cozy
+      - Daylight
+      - Focus
+      - Golden white
+      - Night light
+      - Pulse
+      - Relax
+      - Steampunk
+      - TV time
+      - Wake up
+      - Warm White
+      supported_color_modes:
+      - brightness
+      - color_temp
+      effect: Warm White
+      color_mode: color_temp
+      brightness: 97
+      color_temp_kelvin: 3496
+      color_temp: 286
+      hs_color:
+      - 27.177
+      - 44.861
+      rgb_color:
+      - 255
+      - 192
+      - 140
+      xy_color:
+      - 0.455
+      - 0.374
+      entity_id:
+      - light.wiz_dimmable_white_99ba40
+      - light.wiz_dimmable_white_9ab8d9
+      - light.wiz_dimmable_white_a5dc2c
+      - light.wiz_dimmable_white_a5dc75
+      - light.wiz_tunable_white_19f009
+      icon: mdi:lightbulb-group
+      friendly_name: Hallway lights
+      supported_features: 4
+      state: 'on'
+    switch.patio_light_switch_1:
+      device_class: outlet
+      friendly_name: Patio light Switch 1
+      state: 'on'
+    switch.china_hutch_socket_2:
+      device_class: outlet
+      friendly_name: China hutch Socket
+      state: 'on'
+    light.dining_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Dining Switch 1
+      supported_features: 0
+      state: 'off'
+    switch.entryway_light_switch_1:
+      device_class: outlet
+      friendly_name: Entryway light Switch 1
+      state: 'on'
+    switch.bed_light_socket:
+      device_class: outlet
+      friendly_name: Bed light Socket
+      state: 'on'
+    light.bookcase_1:
+      effect_list:
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - hs
+      effect:
+      color_mode: hs
+      brightness: 26
+      hs_color:
+      - 27
+      - 18
+      rgb_color:
+      - 255
+      - 229
+      - 209
+      xy_color:
+      - 0.368
+      - 0.347
+      friendly_name: Bookcase left
+      supported_features: 36
+      state: 'on'
+    light.bookcase_2:
+      effect_list:
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - hs
+      effect:
+      color_mode: hs
+      brightness: 28
+      hs_color:
+      - 27
+      - 18
+      rgb_color:
+      - 255
+      - 229
+      - 209
+      xy_color:
+      - 0.368
+      - 0.347
+      friendly_name: Bookcase right
+      supported_features: 36
+      state: 'on'
+    light.game_room_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 28
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      friendly_name: Game room light 1
+      supported_features: 0
+      state: 'on'
+    light.game_room_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 26
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      friendly_name: Game room light 2
+      supported_features: 0
+      state: 'on'
+  metadata:
+    light.kitchen_1:
+      entity_only: true
+    light.kitchen_2:
+      entity_only: true
+    light.kitchen_3:
+      entity_only: true
+    light.kitchen_4:
+      entity_only: true
+    light.sink_light_switch_1:
+      entity_only: true
+    switch.counter_switch_1:
+      entity_only: true
+    light.breakfast_area_switch_1:
+      entity_only: true
+    light.hall_closet_switch_1:
+      entity_only: true
+    light.hallway_lights:
+      entity_only: true
+    switch.patio_light_switch_1:
+      entity_only: true
+    switch.china_hutch_socket_2:
+      entity_only: true
+    light.dining_switch_1:
+      entity_only: true
+    switch.entryway_light_switch_1:
+      entity_only: true
+    light.bookcase_1:
+      entity_only: true
+    light.bookcase_2:
+      entity_only: true
+    light.game_room_light_1:
+      entity_only: true
+    light.game_room_light_2:
+      entity_only: true
+  icon: mdi:weather-sunset-up
+- id: '1706702080708'
+  name: Bedtime
+  entities:
+    light.kitchen_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 1
+      supported_features: 0
+      state: 'off'
+    light.kitchen_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 2
+      supported_features: 0
+      state: 'off'
+    light.kitchen_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 3
+      supported_features: 0
+      state: 'off'
+    light.kitchen_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 4
+      supported_features: 0
+      state: 'off'
+    light.sink_light_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: SInk light
+      supported_features: 0
+      state: 'off'
+    switch.counter_switch_1:
+      device_class: outlet
+      friendly_name: Counter Switch 1
+      state: 'off'
+    light.breakfast_area_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Breakfast area lights
+      supported_features: 0
+      state: 'off'
+    light.hall_closet_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Closet
+      supported_features: 0
+      state: 'off'
+    light.hallway_lights:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - Bedtime
+      - Candlelight
+      - Cool white
+      - Cozy
+      - Daylight
+      - Focus
+      - Golden white
+      - Night light
+      - Pulse
+      - Relax
+      - Steampunk
+      - TV time
+      - Wake up
+      - Warm White
+      supported_color_modes:
+      - brightness
+      - color_temp
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
+      entity_id:
+      - light.wiz_dimmable_white_99ba40
+      - light.wiz_dimmable_white_9ab8d9
+      - light.wiz_dimmable_white_a5dc2c
+      - light.wiz_dimmable_white_a5dc75
+      - light.wiz_tunable_white_19f009
+      icon: mdi:lightbulb-group
+      friendly_name: Hallway lights
+      supported_features: 4
+      state: 'off'
+    light.family_room_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
+      entity_id:
+      - light.bookcase_1
+      - light.bookcase_2
+      - light.game_room_light_1
+      - light.game_room_light_2
+      icon: mdi:lightbulb-group
+      friendly_name: Family room lights
+      supported_features: 36
+      state: 'off'
+    switch.patio_light_switch_1:
+      device_class: outlet
+      friendly_name: Patio light Switch 1
+      state: 'off'
+    switch.china_hutch_socket_2:
+      device_class: outlet
+      friendly_name: China hutch Socket
+      state: 'off'
+    light.dining_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Dining Switch 1
+      supported_features: 0
+      state: 'off'
+    switch.entryway_light_switch_1:
+      device_class: outlet
+      friendly_name: Entryway light Switch 1
+      state: 'on'
+    light.counter_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Counter lights
+      supported_features: 0
+      state: 'off'
+    light.kennel_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Kennel
+      supported_features: 0
+      state: 'off'
+    switch.twigs_socket_2:
+      device_class: outlet
+      friendly_name: Twigs Socket
+      state: 'on'
+    switch.mud_room_switch_1:
+      device_class: outlet
+      friendly_name: Mud room  Switch 1
+      state: 'off'
+  metadata:
+    light.kitchen_1:
+      entity_only: true
+    light.kitchen_2:
+      entity_only: true
+    light.kitchen_3:
+      entity_only: true
+    light.kitchen_4:
+      entity_only: true
+    light.sink_light_switch_1:
+      entity_only: true
+    switch.counter_switch_1:
+      entity_only: true
+    light.breakfast_area_switch_1:
+      entity_only: true
+    light.hall_closet_switch_1:
+      entity_only: true
+    light.hallway_lights:
+      entity_only: true
+    light.family_room_lights:
+      entity_only: true
+    switch.patio_light_switch_1:
+      entity_only: true
+    switch.china_hutch_socket_2:
+      entity_only: true
+    light.dining_switch_1:
+      entity_only: true
+    switch.entryway_light_switch_1:
+      entity_only: true
+    light.kennel_switch_1:
+      entity_only: true
+    switch.twigs_socket_2:
+      entity_only: true
+    switch.mud_room_switch_1:
+      entity_only: true
+  icon: mdi:bed
+- id: '1706702275151'
+  name: Guests
+  entities:
+    light.kitchen_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 1
+      supported_features: 0
+      state: 'off'
+    light.kitchen_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 2
+      supported_features: 0
+      state: 'off'
+    light.kitchen_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 3
+      supported_features: 0
+      state: 'off'
+    light.kitchen_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Kitchen 4
+      supported_features: 0
+      state: 'off'
+    light.sink_light_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: SInk light
+      supported_features: 0
+      state: 'off'
+    switch.counter_switch_1:
+      device_class: outlet
+      friendly_name: Counter Switch 1
+      state: 'on'
+    light.breakfast_area_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Breakfast area lights
+      supported_features: 0
+      state: 'off'
+    light.hall_closet_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Closet
+      supported_features: 0
+      state: 'off'
+    light.hallway_lights:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - Bedtime
+      - Candlelight
+      - Cool white
+      - Cozy
+      - Daylight
+      - Focus
+      - Golden white
+      - Night light
+      - Pulse
+      - Relax
+      - Steampunk
+      - TV time
+      - Wake up
+      - Warm White
+      supported_color_modes:
+      - brightness
+      - color_temp
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
+      entity_id:
+      - light.wiz_dimmable_white_99ba40
+      - light.wiz_dimmable_white_9ab8d9
+      - light.wiz_dimmable_white_a5dc2c
+      - light.wiz_dimmable_white_a5dc75
+      - light.wiz_tunable_white_19f009
+      icon: mdi:lightbulb-group
+      friendly_name: Hallway lights
+      supported_features: 4
+      state: 'off'
+    switch.patio_light_switch_1:
+      device_class: outlet
+      friendly_name: Patio light Switch 1
+      state: 'off'
+    switch.china_hutch_socket_2:
+      device_class: outlet
+      friendly_name: China hutch Socket
+      state: 'on'
+    light.dining_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Dining Switch 1
+      supported_features: 0
+      state: 'off'
+    switch.entryway_light_switch_1:
+      device_class: outlet
+      friendly_name: Entryway light Switch 1
+      state: 'on'
+    light.game_room_light_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Game room light 2
+      supported_features: 0
+      state: 'off'
+    light.game_room_light_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Game room light 1
+      supported_features: 0
+      state: 'off'
+    light.bookcase_1:
+      effect_list:
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - brightness
+      - hs
+      friendly_name: Bookcase left
+      supported_features: 36
+      color_mode: hs
+      brightness: 99
+      hs_color:
+      - 27
+      - 37
+      rgb_color:
+      - 255
+      - 203
+      - 160
+      xy_color:
+      - 0.427
+      - 0.368
+      state: 'on'
+    light.bookcase_2:
+      effect_list:
+      - Aurora
+      - Bubbling Cauldron
+      - Candy Cane
+      - Christmas
+      - Flicker
+      - Hanukkah
+      - Haunted Mansion
+      - Icicle
+      - Lightning
+      - Ocean
+      - Rainbow
+      - Raindrop
+      - Spring
+      - Valentines
+      supported_color_modes:
+      - brightness
+      - hs
+      friendly_name: Bookcase right
+      supported_features: 36
+      color_mode: hs
+      brightness: 99
+      hs_color:
+      - 27
+      - 37
+      rgb_color:
+      - 255
+      - 203
+      - 160
+      xy_color:
+      - 0.427
+      - 0.368
+      state: 'on'
+    light.kennel_switch_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Kennel
+      supported_features: 0
+      state: 'off'
+    switch.twigs_socket_2:
+      device_class: outlet
+      friendly_name: Twigs Socket
+      state: 'on'
+  metadata:
+    light.kitchen_1:
+      entity_only: true
+    light.kitchen_2:
+      entity_only: true
+    light.kitchen_3:
+      entity_only: true
+    light.kitchen_4:
+      entity_only: true
+    light.sink_light_switch_1:
+      entity_only: true
+    switch.counter_switch_1:
+      entity_only: true
+    light.breakfast_area_switch_1:
+      entity_only: true
+    light.hall_closet_switch_1:
+      entity_only: true
+    light.hallway_lights:
+      entity_only: true
+    switch.patio_light_switch_1:
+      entity_only: true
+    switch.china_hutch_socket_2:
+      entity_only: true
+    light.dining_switch_1:
+      entity_only: true
+    switch.entryway_light_switch_1:
+      entity_only: true
+    light.game_room_light_2:
+      entity_only: true
+    light.game_room_light_1:
+      entity_only: true
+    light.bookcase_1:
+      entity_only: true
+    light.bookcase_2:
+      entity_only: true
+    light.kennel_switch_1:
+      entity_only: true
+    switch.twigs_socket_2:
+      entity_only: true
+  icon: mdi:account-group
+- id: '1707448922653'
+  name: Lights out
+  entities:
+    switch.garys_light_socket:
+      device_class: outlet
+      friendly_name: Gary’s light Socket
+      state: 'off'
+    switch.shannons_light_socket:
+      device_class: outlet
+      friendly_name: Shannon’s light Socket
+      state: 'off'
+    switch.bed_light_socket:
+      device_class: outlet
+      friendly_name: Bed light Socket
+      state: 'off'
+  icon: mdi:chat-sleep
+  metadata: {}

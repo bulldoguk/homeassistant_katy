@@ -1,0 +1,66 @@
+blueprint:
+  name: Sunset lighting
+  description: Turns on house lights at sunset - 30 minutes
+  domain: automation
+  input:
+    target_lights:
+      name: Lights
+      selector:
+        target:
+          entity:
+            - domain:
+                - light
+    target_switches:
+      name: Switches
+      selector:
+        target:
+          entity:
+            - domain:
+                - switch
+      
+variables:
+  target_lights: !input target_lights
+  target_switches: !input target_switches
+  unavailable_lights: "{{ target_lights.entity_id | select('is_state', 'unavailable') | list }}"
+  starting_brightness_percentage: 10
+  starting_temperature_value: 6000
+
+mode: single
+max_exceeded: silent
+    
+trigger:
+  - platform: sun
+    # Possible values: sunset, sunrise
+    event: sunset
+    # Optional time offset. This example will trigger 45 minutes before sunset.
+    offset: "-00:30:00"
+
+action:
+  - service: light.turn_on
+    target:
+      entity_id: >
+        {{ target_lights.entity_id | list }}
+    # data:
+    #   brightness_pct: '{{ starting_brightness_percentage|int }}'
+    #   color_temp_kelvin: '{{ starting_temperature_value|int }}'
+    
+  - service: switch.turn_on
+    target:
+      entity_id: >
+        {{ target_switches.entity_id | list }}
+
+  - choose:
+    - conditions: "{{ unavailable_lights|length > 0 }}"
+      sequence:
+        - service: notify.mobile_app_garys_iphone
+          data: {
+            message: "Found {{unavailable_lights}} unavailable at sunset"
+          }
+        - delay: 180
+        - service: light.turn_on
+          target:
+            entity_id: >
+              {{ unavailable_lights | list }}
+          # data:
+          #   brightness_pct: '{{ starting_brightness_percentage|int }}'
+          #   color_temp_kelvin: '{{ starting_temperature_value|int }}'

@@ -1,0 +1,179 @@
+blueprint:
+  name: Fan controller
+  description: Temperature based fan control automation
+  domain: automation
+  input:
+    target_fan:
+      name: Fan
+      selector:
+        target:
+          entity:
+            - domain:
+                - fan
+    monday:
+      name: Monday
+      default: false
+      selector:
+        boolean:
+    tuesday:
+      name: Tuesday
+      default: false
+      selector:
+        boolean:
+    wednesday:
+      name: Wednesday
+      default: false
+      selector:
+        boolean:
+    thursday:
+      name: Thursday
+      default: false
+      selector:
+        boolean:
+    friday:
+      name: Friday
+      default: false
+      selector:
+        boolean:
+    saturday:
+      name: Saturday
+      default: false
+      selector:
+        boolean:
+    sunday:
+      name: Sunday
+      default: false
+      selector:
+        boolean:
+
+    temperature_source:
+      name: Temperature Source
+      description: Where do you get your temperature parameter from
+      default: "weather.home"
+      selector:
+        entity:
+          filter:
+            - domain: 
+              - weather
+            - device_class:
+              - temperature
+
+    minimum_temperature:
+      name: Minimum Temperature
+      description: Temperature at which fan should first turn on
+      default: 60
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          unit_of_measurement: "F"
+          mode: slider
+          step: 5.0
+    maximum_temperature:
+      name: Maximum Temperature
+      description: Temperature above which fan should be at full speed
+      default: 90
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          unit_of_measurement: "F"
+          mode: slider
+          step: 5.0
+
+    fixed_speed_start_time:
+      name: fixed_speed_start_time
+      selector:
+        time:
+    fixed_speed_end_time:
+      name: fixed_speed_end_time
+      selector:
+        time:
+    fixed_speed_setting:
+      name: Fixed Speed Setting
+      selector:
+        number:
+          min: 0
+          max: 100
+          unit_of_measurement: "%"
+          mode: slider
+          step: 25
+mode: single
+
+variables:
+  run_on_monday: !input monday
+  run_on_tuesday: !input tuesday
+  run_on_wednesday: !input wednesday
+  run_on_thursday: !input thursday
+  run_on_friday: !input friday
+  run_on_saturday: !input saturday
+  run_on_sunday: !input sunday
+
+  temperature_source: !input temperature_source
+  maximum_temperature: !input maximum_temperature
+  minimum_temperature: !input minimum_temperature
+  current_temperature: "{{ ( state_attr(temperature_source,'temperature') )|float }}"
+  temperature_range: "{{ (maximum_temperature - minimum_temperature)|int }}"
+  current_delta: "{{ (current_temperature - minimum_temperature)| int }}"
+  # percentage: "{{ [((current_temperature - minimum_temperature) * 100 / temperature_range)|int, 0]|max }}"
+  percentage: "{{ [( current_delta**2 * 100 / temperature_range**2 )|int, 0]|max }}"
+  fixed_speed_setting: !input fixed_speed_setting
+
+trigger:
+  - platform: time_pattern
+    minutes: /5
+
+action:
+- choose:
+  - conditions:
+    - condition: template
+      value_template: >
+          {{ ((now().strftime('%A') == 'Sunday') and run_on_sunday) or
+          ((now().strftime('%A') == 'Monday') and run_on_monday) or
+          ((now().strftime('%A') == 'Tuesday') and run_on_tuesday) or
+          ((now().strftime('%A') == 'Wednesday') and run_on_wednesday) or
+          ((now().strftime('%A') == 'Thursday') and run_on_thursday) or
+          ((now().strftime('%A') == 'Friday') and run_on_friday) or
+          ((now().strftime('%A') == 'Saturday') and run_on_saturday) }}
+    sequence:
+    - choose:
+      - conditions:
+        - condition: time
+          after: !input fixed_speed_start_time
+          before: !input fixed_speed_end_time
+        sequence:
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: "{{ fixed_speed_setting < 5 }}"
+            sequence:
+            - service: fan.turn_off
+              target: !input target_fan
+          - conditions:
+            - condition: template
+              value_template: "{{ fixed_speed_setting >= 5 }}"
+            sequence:
+            - service: fan.turn_on
+              data:
+                percentage: "{{ fixed_speed_setting }}"
+              target: !input target_fan
+    
+      - conditions: 
+        - condition: template
+          value_template: "{{ percentage < 5 }}"
+        sequence:
+        - service: fan.turn_off
+          target: !input target_fan
+    
+      - conditions:
+        - condition: template
+          value_template: "{{ current_temperature < minimum_temperature }}"
+        sequence:
+        - service: fan.turn_off
+          target: !input target_fan
+    
+      default:
+      - service: fan.turn_on
+        data:
+          percentage: "{{ percentage if percentage <= 100 else 100 }}"
+        target: !input target_fan

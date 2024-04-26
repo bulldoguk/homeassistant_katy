@@ -1,0 +1,873 @@
+- id: '1694143417202'
+  alias: Master bedroom fan
+  description: ''
+  use_blueprint:
+    path: bulldoguk/fan_control.yaml
+    input:
+      target_fan:
+        entity_id: fan.master_bedroom_fan
+      tuesday: true
+      thursday: true
+      friday: true
+      temperature_source: weather.forecast_katy
+      sunday: true
+      monday: true
+      wednesday: true
+      saturday: true
+      maximum_temperature: 90
+      fixed_speed_start_time: '23:00:00'
+      fixed_speed_end_time: 05:00:00
+      fixed_speed_setting: 100
+      minimum_temperature: 60
+- id: '1694403973808'
+  alias: Gary's office fan
+  description: ''
+  use_blueprint:
+    path: bulldoguk/fan_control.yaml
+    input:
+      target_fan:
+        device_id: 566de1754755fa1eee3dcce7c772f868
+      monday: true
+      tuesday: true
+      wednesday: true
+      thursday: true
+      friday: true
+      temperature_source: weather.forecast_katy
+      minimum_temperature: 70
+      maximum_temperature: 75
+      sunday: false
+      fixed_speed_start_time: '16:30:00'
+      fixed_speed_end_time: 06:30:00
+      fixed_speed_setting: 0
+- id: '1695211997066'
+  alias: Nicks alarm clock lights
+  description: ''
+  use_blueprint:
+    path: bulldoguk/light_alarm_clock.yaml
+    input:
+      target_light:
+        entity_id: light.nick_bedroom_light_light
+      trigger_time: 05:15:00
+      alarm_time: 05:30:00
+      monday: true
+      tuesday: true
+      wednesday: true
+      thursday: true
+      friday: true
+- id: '1695216825714'
+  alias: SpeedTest update
+  description: Update SpeedTest data every 10 hours
+  trigger:
+  - platform: time_pattern
+    minutes: '5'
+  - platform: time_pattern
+    minutes: '20'
+  - platform: time_pattern
+    minutes: '35'
+  - platform: time_pattern
+    minutes: '50'
+  condition:
+  - type: is_value
+    condition: device
+    device_id: 15dc3140659f3d90c5d70c89bd79685c
+    entity_id: defd320bc5e0e25e9c5617a71da0c321
+    domain: sensor
+    below: 75
+  action:
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id:
+      - sensor.speedtest_download
+      - sensor.speedtest_ping
+  mode: single
+- id: '1696724340542'
+  alias: Sunset lighting
+  description: ''
+  use_blueprint:
+    path: bulldoguk/sunset_lighting.yaml
+    input:
+      target_lights:
+        entity_id:
+        - light.kitchen_1
+        - light.kitchen_2
+        - light.kitchen_3
+        - light.kitchen_4
+        - light.wiz_dimmable_white_99ba40
+        - light.wiz_dimmable_white_9ab8d9
+        - light.wiz_dimmable_white_a5dc2c
+        - light.wiz_dimmable_white_a5dc75
+        - light.wiz_tunable_white_19f009
+        - light.bookcase_1
+        - light.bookcase_2
+        - light.game_room_light_1
+        - light.game_room_light_2
+      target_switches:
+        entity_id:
+        - switch.bed_light_socket
+        - switch.garys_light_socket
+        - switch.shannons_light_socket
+        - switch.patio_light_switch_1
+        - switch.entryway_light_switch_1
+        - switch.mud_room_switch_1
+        - switch.counter_switch_1
+        - switch.kennel_switch_1
+        - switch.nsp01_7_socket_1
+        - switch.nsp01_8_socket_1
+        - switch.yard_lights_socket_1
+        - switch.china_hutch_socket_2
+- id: '1696725177200'
+  alias: Early morning lights
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:00:00
+  condition: []
+  action:
+  - service: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.sunrise
+  mode: single
+- id: '1696725343443'
+  alias: Sunrise turn off main lights
+  description: ''
+  use_blueprint:
+    path: bulldoguk/sunrise_lighting.yaml
+    input:
+      monday: true
+      tuesday: true
+      wednesday: true
+      thursday: true
+      friday: true
+      saturday: true
+      sunday: true
+      target_lights:
+        entity_id:
+        - light.bookcase_1
+        - light.bookcase_2
+        - light.game_room_light_1
+        - light.kitchen_1
+        - light.kitchen_2
+        - light.kitchen_3
+        - light.kitchen_4
+        - light.wiz_dimmable_white_99ba40
+        - light.wiz_tunable_white_19f009
+        - light.wiz_dimmable_white_a5dc75
+        - light.wiz_dimmable_white_a5dc2c
+        - light.wiz_dimmable_white_9ab8d9
+        - light.game_room_light_2
+        - light.wiz_tunable_white_e06e29
+        - light.wiz_tunable_white_eb2d61
+      target_switches:
+        entity_id:
+        - switch.patio_light_switch_1
+        - switch.entryway_light_switch_1
+        - switch.mud_room_switch_1
+        - switch.breakfast_area_switch_1
+        - switch.counter_switch_1
+        - switch.family_room_light_socket
+        - switch.sink_light_switch_1
+        - switch.twigs_socket_2
+        - switch.china_hutch_socket_2
+        - switch.bed_light_socket
+        - switch.dining_switch_1
+        - switch.nsp01_7_socket_1
+        - switch.nsp01_8_socket_1
+        - switch.yard_lights_socket_1
+- id: '1696725406092'
+  alias: Sunrise - turn off master bedroom lights
+  description: ''
+  use_blueprint:
+    path: bulldoguk/sunrise_lighting.yaml
+    input:
+      monday: true
+      tuesday: true
+      wednesday: true
+      thursday: true
+      friday: true
+      sunday: true
+      target_lights:
+        entity_id:
+        - light.wiz_dimmable_white_9ab8d9
+        - light.wiz_dimmable_white_99ba40
+      target_switches:
+        entity_id:
+        - switch.shannons_light_socket
+        - switch.garys_light_socket
+        - switch.bed_light_socket
+- id: '1696940063384'
+  alias: 'Shannon is up '
+  description: ''
+  trigger:
+  - type: duration
+    platform: device
+    device_id: 2788f460d78f9837c2fef4644f09ec44
+    entity_id: c39275c8f5d60d7d86c2267b108de851
+    domain: sensor
+    above: 5
+  condition: []
+  action:
+  - service: notify.mobile_app_garys_iphone
+    data:
+      message: Shannon is brushing!
+  mode: single
+- id: '1701571950029'
+  alias: Kitchen button automation
+  description: ''
+  trigger:
+  - device_id: a15ba6b6f5e4be0073ef6ff0e1505dfe
+    domain: zha
+    platform: device
+    type: remote_button_double_press
+    subtype: remote_button_double_press
+  - device_id: a15ba6b6f5e4be0073ef6ff0e1505dfe
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: remote_button_short_press
+  - device_id: a15ba6b6f5e4be0073ef6ff0e1505dfe
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: remote_button_long_press
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "single" }}'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "ON" }}'
+          sequence:
+          - service: light.turn_off
+            target:
+              entity_id: '{{ lights_all }}
+
+                '
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "OFF" }}'
+          sequence:
+          - service: input_select.select_option
+            data:
+              entity_id: input_select.kitchen_lighting_state
+              option: Circadian
+          - service: light.turn_on
+            data:
+              entity_id: '{{ lights_all }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "hold" }}'
+      sequence:
+      - service: logbook.log
+        data:
+          name: Button press
+          message: Button was long pressed {{ trigger.id }} - not implemented yet
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "double" }}'
+      sequence:
+      - service: logbook.log
+        data:
+          name: Button press
+          message: Button was pressed {{ trigger.id }}
+      - service: input_select.select_next
+        data:
+          entity_id: input_select.kitchen_lighting_state
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_all }}'
+  variables:
+    area: kitchen
+    event: '{{ trigger.event.data.args.press_type }}'
+    lights_all: '{# get a list of all lights in the selected area #} {{ expand(area_entities(area)
+      | select(''match'', ''light'')) | map(attribute=''entity_id'') | list }}'
+    lights_on: '{# filter the list to see if we have any lights already on #} {{ lights_all
+      | select(''is_state'', ''on'') | list }}'
+    lights_status: '{# if any light is on, this is ON, otherwise OFF #} {% if lights_on|length
+      > 0 %} {{ ''ON'' }} {% else %} {{ ''OFF'' }} {% endif %}'
+  mode: single
+- id: '1702234808283'
+  alias: Fan status testing
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 01476df15ae718af4e41fa8e75435fe5
+    entity_id: d55ae5af0aa478129b752d10bef35be2
+    domain: fan
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: Master fan
+      message: Master fan on
+      entity_id: input_select.master_fan_state
+  mode: single
+- id: '1703453966221'
+  alias: Family room fan
+  description: ''
+  use_blueprint:
+    path: bulldoguk/fan_control.yaml
+    input:
+      target_fan:
+        entity_id: fan.family_room_fan_2
+      monday: true
+      tuesday: true
+      wednesday: true
+      thursday: true
+      friday: true
+      saturday: true
+      sunday: true
+      fixed_speed_start_time: '23:00:00'
+      fixed_speed_end_time: 04:00:00
+      fixed_speed_setting: 50
+      temperature_source: weather.forecast_katy
+- id: '1703726135857'
+  alias: System circadian
+  description: Should update the system circadian temperature on each run
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Circadian temperature {{circadian_temperature_value}}
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_temperature
+      value: '{{circadian_temperature_value}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_brightness_percentage
+      value: '{{brightness_percentage}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_elevation_brightness
+      value: '{{elevation_brightness}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_saturation
+      value: '{{new_saturation}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_hue_value
+      value: '{{circadian_hue_value}}'
+  mode: single
+  variables:
+    circadian_position: '{# Define next sunrise and sunset times based on sun #}  {%-
+      set time_current = now()|as_timestamp -%}  {%- set time_sunrise = state_attr(''sun.sun'',''next_rising'')|as_timestamp
+      -%} {%- set time_sunset = state_attr(''sun.sun'',''next_setting'')|as_timestamp
+      -%} {# Fix input times so that they reflect the next sunrise and sunset #} {%-
+      if time_sunrise < time_current -%} {% set time_sunrise = time_sunrise + 86400
+      -%} {%- endif -%} {%- if time_sunset < time_current -%} {% set time_sunset =
+      time_sunset + 86400 -%} {%- endif -%} {# Calculate sun position, from 0 to 1
+      in daytime. 0.5 is midday #}  {%- if time_sunrise > time_sunset -%} {%- set
+      time_sunrise = time_sunrise-86400 -%} {%- set position = (time_current-time_sunrise)
+      / (time_sunset-time_sunrise) -%} {%- else -%} {# During nighttime, go from 1
+      to 2, at 2 it resets to daytime.  1.5 is midnight. #} {%- set time_sunset =
+      time_sunset-86400 -%} {%- set position = 1 + (time_current-time_sunset) / (time_sunrise-time_sunset)
+      -%} {%- endif -%}  {# Return calculated result #} {{ position }}'
+    circadian_coefficient: '{# Calculate coefficient based on selected circadian function
+      #}  {# Add 1 and divide by 2 to give us a 0 - 1 scale for the sine wave #} {%-
+      set coefficient = (1 + sin( pi*(circadian_position) ) ) / 2 -%} {# Return calculated
+      result #} {{ coefficient }}'
+    circadian_angle: '{# Calculate angle based on selected circadian function #}  {%-
+      set angle = [circadian_position,0]|max -%} {# Return calculated result #} {{
+      angle }}'
+    circadian_brightness_midday: 100
+    circadian_brightness_midnight: 10
+    brightness_percentage: '{# Percentages seem to work better on my lights generally
+      #} {% if target_status == ''On'' %} {{ 100 }} {% else %} {% set brightness_range
+      = circadian_brightness_midday - circadian_brightness_midnight %} {% set brightness_percentage
+      = (circadian_coefficient * brightness_range) + circadian_brightness_midnight
+      %} {{ brightness_percentage | int }} {% endif %}'
+    elevation_brightness: '{# Calculate coefficient to be multiplied with brightness
+      #} {{ (brightness_percentage / 100 * 255) | int }}'
+    circadian_temperature_midday: 3000
+    circadian_temperature_midnight: 2000
+    circadian_temperature_value: '{# Color temperature value to adjust to #} {% set
+      temp_range = circadian_temperature_midday|float - circadian_temperature_midnight|float
+      %} {{ (circadian_temperature_midnight|float + (circadian_coefficient * temp_range))
+      | int }}'
+    red_level: 255
+    blue_level: '{# from https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
+      #} {# Also https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+      #} {% set temperature = (circadian_temperature_value / 100)|int %} {% set blue
+      = 138.5177312231 * log(temperature - 10) - 305.0447927307 %} {%- if blue < 0
+      -%} {{ 0 }} {%- endif -%} {%- if blue > 255 -%} {{ 255 }} {%- else -%} {{ blue
+      }} {% endif %}'
+    green_level: '{# Calculate green level to be used #} {% set temperature = (circadian_temperature_value
+      / 100)|int %} {% set green = 99.4708025861 * log(temperature) - 161.1195681661
+      %} {%- if green < 0 -%} {{ 0 }} {%- endif -%} {%- if green > 255 -%} {{ 255
+      }} {%- else -%} {{ green }} {% endif %}'
+    max: 255
+    min: '{%- set minimum = [blue_level, green_level]|min -%} {{ minimum }}'
+    circadian_hue_value: '{# Color hue value to adjust to #} {%- set hue = (60 * ((green_level
+      - blue_level) / (max - min))) -%} {%- if hue < 0 -%} {{ 360 }} {%- else -%}
+      {{ hue }} {%- endif -%}'
+    circadian_saturation_default: 100
+    luminosity: '{# the Luminosity of a pixel is the range between the minimum and
+      maximum values of Red Green and Blue. #} {% set luminosity = ([red_level, blue_level,
+      green_level]|max + [red_level, blue_level, green_level]|min)/2 * 100 %} {{ luminosity
+      }}'
+    new_saturation: '{# Calculate the Luminosity as RGB(max - min). #} {# If Luminosity
+      is less than 0.5 then Saturation = (max - min) / (max + min) #} {# If Luminosity
+      is greater than 0.5 then Saturation = (max - min) / (2 - max - min) #} {%- if
+      luminosity < 50 -%} {%- set saturation = ((max - min) / (max + min))|abs -%}
+      {%- else -%} {%- set saturation = ((max - min) / (2 - max - min))|abs -%} {%-
+      endif -%} {{ saturation * 100 }}'
+- id: '1703727295907'
+  alias: System circadian temperature change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_number.circadian_temperature
+  - platform: state
+    entity_id:
+    - input_select.family_lighting_state
+    - input_select.hallway_lighting_state
+    - input_select.kitchen_lighting_state
+    - input_select.gary_office_lighting_state
+    to: Circadian
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Running circadian
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_brightness | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_brightness }}'
+          brightness: '{{ states(''input_number.circadian_elevation_brightness'')
+            }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_color | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_color }}'
+          brightness_pct: '{{ states(''input_number.circadian_brightness_percentage'')
+            }}'
+          hs_color:
+          - '{{ states(''input_number.circadian_hue_value'') }}'
+          - '{{ states(''input_number.circadian_saturation'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_temperature | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_temperature }}'
+          brightness: '{{ states(''input_number.circadian_elevation_brightness'')
+            }}'
+          color_temp_kelvin: '{{ states(''input_number.circadian_temperature'') }}'
+  mode: single
+  variables:
+    all_areas: "{% set areas = states\n  | selectattr('attributes.device_class', 'defined')
+      \n  | map(attribute='entity_id')\n  | map('area_id') | unique | reject('none')
+      | list %}\n{{ areas }}"
+    circadian_areas: "{% set return_list = namespace(areas=[], status=[], result=[])
+      %}\n{% for area in all_areas %}\n  {% set status_input = (expand(area_entities(area)
+      | select('match', 'input_select.*_lighting_state')) | map(attribute=\"entity_id\")
+      | list) %}\n  {% if status_input[0] is defined %}\n    {% if states(status_input[0]|string)
+      == 'Circadian' %}\n      {% set return_list.areas = return_list.areas + [area]
+      %}\n    {% endif %}\n  {% else %}\n    {% set return_list.areas = return_list.areas
+      + [area] %}\n  {% endif %}\n{% endfor %}\n{{ return_list.areas }}"
+    target_lights: "{% set lights = namespace(target_lights=[]) %}\n{% for area in
+      circadian_areas %}\n  {% set lights.target_lights = lights.target_lights + (expand(area_entities(area)
+      | select('match', 'light')) | selectattr('state','eq', 'on') | map(attribute='entity_id')
+      | list) %}\n{% endfor %}\n{{ lights.target_lights }}"
+    lights_dim_brightness: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''brightness'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_temperature: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''color_temp'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_color: '{%- set lights_select = namespace(entities=[]) -%} {%- for
+      i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'') in
+      [''rgb'',''rgbw'',''rgbww'',''xy'',''hs''] -%} {%- set lights_select.entities
+      = lights_select.entities + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities
+      }}'
+- id: '1704337741534'
+  alias: System Circadian tester
+  description: ''
+  trigger:
+  - platform: time_pattern
+    seconds: /10
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Running circadian tester
+  mode: single
+  variables:
+    all_areas: "{% set areas = states\n  | selectattr('attributes.device_class', 'defined')
+      \n  | map(attribute='entity_id')\n  | map('area_id') | unique | reject('none')
+      | list %}\n{{ areas }}"
+    circadian_areas: "{% set return_list = namespace(areas=[], status=[], result=[])
+      %}\n{% for area in all_areas %}\n  {% set status_input = (expand(area_entities(area)
+      | select('match', 'input_select.*_lighting_state')) | map(attribute=\"entity_id\")
+      | list) %}\n  {% if status_input[0] is defined %}\n    {% if states(status_input[0]|string)
+      == 'Circadian' %}\n      {% set return_list.areas = return_list.areas + [area]
+      %}\n    {% endif %}\n  {% else %}\n    {% set return_list.areas = return_list.areas
+      + [area] %}\n  {% endif %}\n{% endfor %}\n{{ return_list.areas }}"
+    target_lights: "{% set lights = namespace(target_lights=[]) %}\n{% for area in
+      circadian_areas %}\n  {% set lights.target_lights = lights.target_lights + (expand(area_entities(area)
+      | select('match', 'light')) | selectattr('state','eq', 'on') | map(attribute='entity_id')
+      | list) %}\n{% endfor %}\n{{ lights.target_lights }}"
+    lights_dim_brightness: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''brightness'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_temperature: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''color_temp'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_color: '{%- set lights_select = namespace(entities=[]) -%} {%- for
+      i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'') in
+      [''rgb'',''rgbw'',''rgbww'',''xy'',''hs''] -%} {%- set lights_select.entities
+      = lights_select.entities + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities
+      }}'
+- id: '1705111811537'
+  alias: lighting mode change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.kitchen_lighting_state
+    id: lighting_state
+  - platform: state
+    entity_id:
+    - input_select.family_lighting_state
+    id: lighting_state
+  - platform: state
+    entity_id:
+    - input_select.gary_office_lighting_state
+    id: lighting_state
+  - platform: state
+    entity_id:
+    - input_select.hallway_lighting_state
+    id: lighting_state
+  condition:
+  - condition: trigger
+    id:
+    - lighting_state
+  action:
+  - service: logbook.log
+    metadata: {}
+    data:
+      name: lighting change {{ trigger.to_state.state }}
+      domain: light
+  mode: single
+- id: '1705361162349'
+  alias: nick light off
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 194e926b27c3fa61ae7e73d2a58218ac
+  mode: single
+- id: '1705373263732'
+  alias: System Lighting ON mode
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  - platform: state
+    entity_id:
+    - input_select.family_lighting_state
+    - input_select.hallway_lighting_state
+    - input_select.kitchen_lighting_state
+    - input_select.gary_office_lighting_state
+    to: 'On'
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Running ON routine
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_brightness | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_brightness }}'
+          brightness: 255
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_color | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_color }}'
+          brightness_pct: 100
+          hs_color:
+          - '{{ states(''input_number.circadian_hue_value'') }}'
+          - '{{ states(''input_number.circadian_saturation'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_temperature | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_temperature }}'
+          brightness: 255
+          color_temp_kelvin: 6500
+  mode: single
+  variables:
+    all_areas: "{% set areas = states\n  | selectattr('attributes.device_class', 'defined')
+      \n  | map(attribute='entity_id')\n  | map('area_id') | unique | reject('none')
+      | list %}\n{{ areas }}"
+    circadian_areas: "{% set return_list = namespace(areas=[], status=[], result=[])
+      %}\n{% for area in all_areas %}\n  {% set status_input = (expand(area_entities(area)
+      | select('match', 'input_select.*_lighting_state')) | map(attribute=\"entity_id\")
+      | list) %}\n  {% if status_input[0] is defined %}\n    {% if states(status_input[0]|string)
+      == 'On' %}\n      {% set return_list.areas = return_list.areas + [area] %}\n
+      \   {% endif %}\n  {% endif %}\n{% endfor %}\n{{ return_list.areas }}"
+    target_lights: "{% set lights = namespace(target_lights=[]) %}\n{% for area in
+      circadian_areas %}\n  {% set lights.target_lights = lights.target_lights + (expand(area_entities(area)
+      | select('match', 'light')) | selectattr('state','eq', 'on') | map(attribute='entity_id')
+      | list) %}\n{% endfor %}\n{{ lights.target_lights }}"
+    lights_dim_brightness: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''brightness'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_temperature: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''color_temp'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_color: '{%- set lights_select = namespace(entities=[]) -%} {%- for
+      i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'') in
+      [''rgb'',''rgbw'',''rgbww'',''xy'',''hs''] -%} {%- set lights_select.entities
+      = lights_select.entities + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities
+      }}'
+- id: '1705886585664'
+  alias: Lost bookcases
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{% if is_state(''light.bookcase_1'', ''unavailable'') %}true{%
+      endif %}'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: template
+    value_template: '{% if is_state(''light.bookcase_2'', ''unavailable'') %}true{%
+      endif %}'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    metadata: {}
+    data:
+      message: Lost bookcase
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - a52f61994ca52e4d07947eb67e6ee1ac
+      - 40a89e825655c8d7e3c023c7a6f6ced2
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 20
+      milliseconds: 0
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - a52f61994ca52e4d07947eb67e6ee1ac
+      - 40a89e825655c8d7e3c023c7a6f6ced2
+  mode: single
+- id: '1707447092164'
+  alias: Family light switch pressed
+  description: ''
+  trigger:
+  - device_id: 31b0fd49e85555bea3aeb9498bb6719d
+    domain: zha
+    platform: device
+    type: remote_button_double_press
+    subtype: button_1
+  - device_id: 31b0fd49e85555bea3aeb9498bb6719d
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: button_1
+  - device_id: 31b0fd49e85555bea3aeb9498bb6719d
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: button_1
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "remote_button_short_press" }}'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "ON" }}'
+          sequence:
+          - service: light.turn_off
+            target:
+              entity_id: '{{ lights_all }}
+
+                '
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "OFF" }}'
+          sequence:
+          - service: input_select.select_option
+            data:
+              entity_id: input_select.family_lighting_state
+              option: Circadian
+          - service: light.turn_on
+            data:
+              entity_id: '{{ lights_all }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "hold" }}'
+      sequence:
+      - service: logbook.log
+        data:
+          name: Button press
+          message: Button was long pressed {{ trigger.id }} - not implemented yet
+    - conditions:
+      - condition: template
+        value_template: '{{ event == "remote_button_double_press" }}'
+      sequence:
+      - service: logbook.log
+        data:
+          name: Button press
+          message: Button was pressed {{ trigger.type }}
+      - service: input_select.select_next
+        data:
+          entity_id: input_select.family_lighting_state
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_all }}'
+  - service: notify.persistent_notification
+    metadata: {}
+    data:
+      message: Test step {{ event }}
+  mode: single
+  variables:
+    area: family_room
+    event: '{{ trigger.event.data.command }}'
+    lights_all: '{# get a list of all lights in the selected area #} {{ expand(area_entities(area)
+      | select(''match'', ''light'')) | map(attribute=''entity_id'') | list }}'
+    lights_on: '{# filter the list to see if we have any lights already on #} {{ lights_all
+      | select(''is_state'', ''on'') | list }}'
+    lights_status: '{# if any light is on, this is ON, otherwise OFF #} {% if lights_on|length
+      > 0 %} {{ ''ON'' }} {% else %} {{ ''OFF'' }} {% endif %}'
+- id: '1712663172159'
+  alias: MQTT testing
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/tasmota_FD9EA5/RESULT
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    metadata: {}
+    data:
+      title: MQTT message
+      message: trigger.payload
+  mode: single
+- id: '1712677679204'
+  alias: Tasmota lighting button automation
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/+/lights/RESULT
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ action == "SINGLE" }}'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "ON" }}'
+          sequence:
+          - service: light.turn_off
+            target:
+              entity_id: '{{ lights_all }}
+
+                '
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "OFF" }}'
+          sequence:
+          - service: light.turn_on
+            data:
+              entity_id: '{{ lights_all }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ action == "DOUBLE" }}'
+      sequence:
+      - service: input_select.select_next
+        data:
+          entity_id: '{{ lighting_mode_input }}'
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_all }}'
+    default:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Unrecognized button action in {{area}}:{{ action }}
+  mode: single
+  variables:
+    action: '{{ trigger.payload_json["Button1"]["Action"] }}'
+    area: '{{ trigger.topic.split(''/'')[1] }}'
+    lights_all: '{# get a list of all lights in the selected area #} {{ expand(area_entities(area)
+      | select(''match'', ''light'')) | map(attribute=''entity_id'') | list }}'
+    lights_on: '{# filter the list to see if we have any lights already on #} {{ lights_all
+      | select(''is_state'', ''on'') | list }}'
+    lights_status: '{# if any light is on, this is ON, otherwise OFF #} {% if lights_on|length
+      > 0 %} {{ ''ON'' }} {% else %} {{ ''OFF'' }} {% endif %}'
+    lighting_mode: '{{ expand(area_entities(area) | select(''match'',''input_select''))
+      | selectattr(''entity_id'', ''contains'', ''_lighting_state'') | map(attribute=''state'')
+      | list }}'
+    lighting_mode_input: '{{ expand(area_entities(area)) | selectattr(''entity_id'',''contains'',''_lighting_state'')
+      | map(attribute=''entity_id'') | list }}'

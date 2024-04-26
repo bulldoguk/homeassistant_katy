@@ -1,0 +1,112 @@
+blueprint:
+  name: Sunrise lighting
+  description: Turns OFF house lights at sunrise + 30 minutes
+  domain: automation
+  input:
+    target_lights:
+      name: Lights
+      selector:
+        target:
+          entity:
+            - domain:
+                - light
+    target_switches:
+      name: Switches
+      selector:
+        target:
+          entity:
+            - domain:
+                - switch
+    monday:
+      name: Monday
+      default: false
+      selector:
+        boolean:
+    tuesday:
+      name: Tuesday
+      default: false
+      selector:
+        boolean:
+    wednesday:
+      name: Wednesday
+      default: false
+      selector:
+        boolean:
+    thursday:
+      name: Thursday
+      default: false
+      selector:
+        boolean:
+    friday:
+      name: Friday
+      default: false
+      selector:
+        boolean:
+    saturday:
+      name: Saturday
+      default: false
+      selector:
+        boolean:
+    sunday:
+      name: Sunday
+      default: false
+      selector:
+        boolean:
+
+variables:
+  target_lights: !input target_lights
+  target_switches: !input target_switches
+  unavailable_lights: "{{ target_lights.entity_id | select('is_state', 'unavailable') | list }}"
+  run_on_monday: !input monday
+  run_on_tuesday: !input tuesday
+  run_on_wednesday: !input wednesday
+  run_on_thursday: !input thursday
+  run_on_friday: !input friday
+  run_on_saturday: !input saturday
+  run_on_sunday: !input sunday
+
+
+mode: single
+max_exceeded: silent
+    
+trigger:
+  - platform: sun
+    # Possible values: sunset, sunrise
+    event: sunrise
+    # Optional time offset. This example will trigger 45 minutes before sunset.
+    offset: "+00:30:00"
+
+action:
+- choose:
+  - conditions:
+    - condition: template
+      value_template: >
+          {{ ((now().strftime('%A') == 'Sunday') and run_on_sunday) or
+          ((now().strftime('%A') == 'Monday') and run_on_monday) or
+          ((now().strftime('%A') == 'Tuesday') and run_on_tuesday) or
+          ((now().strftime('%A') == 'Wednesday') and run_on_wednesday) or
+          ((now().strftime('%A') == 'Thursday') and run_on_thursday) or
+          ((now().strftime('%A') == 'Friday') and run_on_friday) or
+          ((now().strftime('%A') == 'Saturday') and run_on_saturday) }}
+    sequence:
+    - service: light.turn_off
+      target:
+        entity_id: >
+          {{ target_lights.entity_id | list }}
+    - service: switch.turn_off
+      target:
+        entity_id: >
+          {{ target_switches.entity_id | list }}
+  
+    - choose:
+      - conditions: "{{ unavailable_lights|length > 0 }}"
+        sequence:
+          - service: notify.mobile_app_garys_iphone
+            data: {
+              message: "Found {{unavailable_lights}} unavailable at sunrise"
+            }
+          - delay: 180
+          - service: light.turn_off
+            target:
+              entity_id: >
+                {{ unavailable_lights | list }}

@@ -1,0 +1,110 @@
+blueprint:
+  name: Alarm Clock Lighting
+  description: To gradually increase the light level from trigger to alarm time to help in waking up
+  domain: automation
+  input:
+    target_light:
+      name: Lighting
+      selector:
+        target:
+          entity:
+            - domain:
+              - light
+
+    trigger_time:
+        name: Trigger time
+        selector:
+            time:
+        default: 06:00:00
+
+    alarm_time:
+      name: Alarm Time
+      selector:
+        time:
+      default: 07:30:00
+
+    monday:
+      name: Monday
+      default: false
+      selector:
+        boolean:
+    tuesday:
+      name: Tuesday
+      default: false
+      selector:
+        boolean:
+    wednesday:
+      name: Wednesday
+      default: false
+      selector:
+        boolean:
+    thursday:
+      name: Thursday
+      default: false
+      selector:
+        boolean:
+    friday:
+      name: Friday
+      default: false
+      selector:
+        boolean:
+    saturday:
+      name: Saturday
+      default: false
+      selector:
+        boolean:
+    sunday:
+      name: Sunday
+      default: false
+      selector:
+        boolean:
+
+mode: single
+
+variables:
+  alarm_time_raw: !input alarm_time
+  alarm_time: >
+    {% set alarm_time = as_timestamp(strptime(alarm_time_raw, "%H:%M:%S")) %} {{ alarm_time }}
+  trigger_time_raw: !input trigger_time
+  trigger_time: >
+    {% set trigger_time = as_timestamp(strptime(trigger_time_raw, "%H:%M:%S")) %} {{ trigger_time }}
+  duration: >
+    {% set duration = alarm_time - trigger_time %} {{ duration }}
+  now_time: >
+    {% set now_string = now().hour|string + ":" + now().minute|string + ":" + now().second|string %}
+    {% set now_time = as_timestamp(strptime(now_string, "%H:%M:%S")) %} {{ now_time }}
+  percentage: >
+    {% set duration = alarm_time - trigger_time %} {% set progress = now_time - trigger_time %} {% set percentage = (progress * 100 / duration) | float %} {{ percentage }}
+  run_on_monday: !input monday
+  run_on_tueday: !input tuesday
+  run_on_wednesday: !input wednesday
+  run_on_thursday: !input thursday
+  run_on_friday: !input friday
+  run_on_saturday: !input saturday
+  run_on_sunday: !input sunday
+  
+
+trigger:
+  - platform: time_pattern
+    minutes: /1
+
+action:
+- choose:
+  - conditions:
+    - condition: time
+      after: !input trigger_time
+      before: !input alarm_time
+    - condition: template
+      value_template: >
+          {{ ((now().strftime('%A') == 'Sunday') and run_on_sunday) or
+          ((now().strftime('%A') == 'Monday') and run_on_monday) or
+          ((now().strftime('%A') == 'Tuesday') and run_on_tuesday) or
+          ((now().strftime('%A') == 'Wednesday') and run_on_wednesday) or
+          ((now().strftime('%A') == 'Thursday') and run_on_thursday) or
+          ((now().strftime('%A') == 'Friday') and run_on_friday) or
+          ((now().strftime('%A') == 'Saturday') and run_on_saturday) }}
+    sequence:
+    - service: light.turn_on
+      data:
+        brightness_pct: "{{ percentage }}"
+      target: !input target_light

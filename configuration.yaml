@@ -1,0 +1,78 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+  extra_module_url:
+    - /hacsfiles/lovelace-card-mod/card-mod.js
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+homeassistant:
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.86.0/24
+        - 127.0.0.1
+        - ::1
+      allow_bypass_login: true
+    - type: homeassistant
+
+command_line:
+  - sensor:
+      name: CPU Temperature
+      command: "cat /sys/class/thermal/thermal_zone0/temp"
+      # If errors occur, make sure configuration file is encoded as UTF-8
+      unit_of_measurement: "°C"
+      value_template: "{{ value | multiply(0.001) | round(1) }}"
+
+mqtt:
+  fan:
+    - name: "Family Room Fan 2"
+      unique_id: '12345_familyRoomFan'
+      qos: 1
+      state_topic: "stat/family_room_fan/POWER"
+      command_topic: "cmnd/family_room_fan/POWER"
+      availability_topic: "tele/family_room_fan/LWT"
+      percentage_state_topic: "stat/family_room_fan/speed"
+      percentage_value_template: '{{ ((value | replace("3,","")) | int + 1) * 25 }}'
+      percentage_command_topic: "cmnd/family_room_fan/tuyasend4"
+      percentage_command_template: "3,{{ ((value | int - 1) / 25) | int }}"
+      preset_mode_state_topic: "stat/family_room_fan/speed"
+      preset_mode_value_template: '{{ value | replace("3,0", "turtle") | replace("3,1", "low") | replace("3,2", "medium") | replace("3,3", "high") }}'
+      preset_mode_command_topic: "cmnd/family_room_fan/tuyasend4"
+      preset_mode_command_template: '{{ value | replace("turtle", "3,0") | replace("low", "3,1") | replace("medium", "3,2") | replace("high", "3,3") }}'
+      preset_modes:
+        - "turtle"
+        - "low"
+        - "medium"
+        - "high"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      payload_on: "ON"
+      payload_off: "OFF"
+      
+zha:
+  custom_quirks_path: /config/config/zha_quirks/
+      
+logger:
+  default: info
+  logs:
+    homeassistant.core: info
+    homeassistant.components.zha: debug
+    bellows.zigbee.application: debug
+    bellows.ezsp: debug
+    zigpy: debug
+    zigpy_deconz.zigbee.application: debug
+    zigpy_deconz.api: debug
+    zigpy_xbee.zigbee.application: debug
+    zigpy_xbee.api: debug
+    zigpy_zigate: debug
+    zigpy_znp: debug
+    zhaquirks: debug
+    tuya: debug
+    
