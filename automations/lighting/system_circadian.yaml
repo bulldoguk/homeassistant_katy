@@ -1,0 +1,97 @@
+- id: '1703726135857'
+  alias: System circadian
+  description: Should update the system circadian temperature on each run
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Circadian temperature {{circadian_temperature_value}}
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_temperature
+      value: '{{circadian_temperature_value}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_brightness_percentage
+      value: '{{brightness_percentage}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_elevation_brightness
+      value: '{{elevation_brightness}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_saturation
+      value: '{{new_saturation}}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.circadian_hue_value
+      value: '{{circadian_hue_value}}'
+  mode: single
+  variables:
+    circadian_position: '{# Define next sunrise and sunset times based on sun #}  {%-
+      set time_current = now()|as_timestamp -%}  {%- set time_sunrise = state_attr(''sun.sun'',''next_rising'')|as_timestamp
+      -%} {%- set time_sunset = state_attr(''sun.sun'',''next_setting'')|as_timestamp
+      -%} {# Fix input times so that they reflect the next sunrise and sunset #} {%-
+      if time_sunrise < time_current -%} {% set time_sunrise = time_sunrise + 86400
+      -%} {%- endif -%} {%- if time_sunset < time_current -%} {% set time_sunset =
+      time_sunset + 86400 -%} {%- endif -%} {# Calculate sun position, from 0 to 1
+      in daytime. 0.5 is midday #}  {%- if time_sunrise > time_sunset -%} {%- set
+      time_sunrise = time_sunrise-86400 -%} {%- set position = (time_current-time_sunrise)
+      / (time_sunset-time_sunrise) -%} {%- else -%} {# During nighttime, go from 1
+      to 2, at 2 it resets to daytime.  1.5 is midnight. #} {%- set time_sunset =
+      time_sunset-86400 -%} {%- set position = 1 + (time_current-time_sunset) / (time_sunrise-time_sunset)
+      -%} {%- endif -%}  {# Return calculated result #} {{ position }}'
+    circadian_coefficient: '{# Calculate coefficient based on selected circadian function
+      #}  {# Add 1 and divide by 2 to give us a 0 - 1 scale for the sine wave #} {%-
+      set coefficient = (1 + sin( pi*(circadian_position) ) ) / 2 -%} {# Return calculated
+      result #} {{ coefficient }}'
+    circadian_angle: '{# Calculate angle based on selected circadian function #}  {%-
+      set angle = [circadian_position,0]|max -%} {# Return calculated result #} {{
+      angle }}'
+    circadian_brightness_midday: 100
+    circadian_brightness_midnight: 10
+    brightness_percentage: '{# Percentages seem to work better on my lights generally
+      #} {% if target_status == ''On'' %} {{ 100 }} {% else %} {% set brightness_range
+      = circadian_brightness_midday - circadian_brightness_midnight %} {% set brightness_percentage
+      = (circadian_coefficient * brightness_range) + circadian_brightness_midnight
+      %} {{ brightness_percentage | int }} {% endif %}'
+    elevation_brightness: '{# Calculate coefficient to be multiplied with brightness
+      #} {{ (brightness_percentage / 100 * 255) | int }}'
+    circadian_temperature_midday: 3000
+    circadian_temperature_midnight: 2000
+    circadian_temperature_value: '{# Color temperature value to adjust to #} {% set
+      temp_range = circadian_temperature_midday|float - circadian_temperature_midnight|float
+      %} {{ (circadian_temperature_midnight|float + (circadian_coefficient * temp_range))
+      | int }}'
+    red_level: 255
+    blue_level: '{# from https://tannerhelland.com/2012/09/18/convert-temperature-rgb-algorithm-code.html
+      #} {# Also https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/
+      #} {% set temperature = (circadian_temperature_value / 100)|int %} {% set blue
+      = 138.5177312231 * log(temperature - 10) - 305.0447927307 %} {%- if blue < 0
+      -%} {{ 0 }} {%- endif -%} {%- if blue > 255 -%} {{ 255 }} {%- else -%} {{ blue
+      }} {% endif %}'
+    green_level: '{# Calculate green level to be used #} {% set temperature = (circadian_temperature_value
+      / 100)|int %} {% set green = 99.4708025861 * log(temperature) - 161.1195681661
+      %} {%- if green < 0 -%} {{ 0 }} {%- endif -%} {%- if green > 255 -%} {{ 255
+      }} {%- else -%} {{ green }} {% endif %}'
+    max: 255
+    min: '{%- set minimum = [blue_level, green_level]|min -%} {{ minimum }}'
+    circadian_hue_value: '{# Color hue value to adjust to #} {%- set hue = (60 * ((green_level
+      - blue_level) / (max - min))) -%} {%- if hue < 0 -%} {{ 360 }} {%- else -%}
+      {{ hue }} {%- endif -%}'
+    circadian_saturation_default: 100
+    luminosity: '{# the Luminosity of a pixel is the range between the minimum and
+      maximum values of Red Green and Blue. #} {% set luminosity = ([red_level, blue_level,
+      green_level]|max + [red_level, blue_level, green_level]|min)/2 * 100 %} {{ luminosity
+      }}'
+    new_saturation: '{# Calculate the Luminosity as RGB(max - min). #} {# If Luminosity
+      is less than 0.5 then Saturation = (max - min) / (max + min) #} {# If Luminosity
+      is greater than 0.5 then Saturation = (max - min) / (2 - max - min) #} {%- if
+      luminosity < 50 -%} {%- set saturation = ((max - min) / (max + min))|abs -%}
+      {%- else -%} {%- set saturation = ((max - min) / (2 - max - min))|abs -%} {%-
+      endif -%} {{ saturation * 100 }}'
+      

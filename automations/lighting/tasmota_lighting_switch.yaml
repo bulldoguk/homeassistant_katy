@@ -1,0 +1,60 @@
+- id: '1712677679204'
+  alias: Tasmota lighting button automation
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/+/lights/RESULT
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ action == "SINGLE" }}'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "ON" }}'
+          sequence:
+          - service: light.turn_off
+            target:
+              entity_id: '{{ lights_all }}
+
+                '
+        - conditions:
+          - condition: template
+            value_template: '{{ lights_status == "OFF" }}'
+          sequence:
+          - service: light.turn_on
+            data:
+              entity_id: '{{ lights_all }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ action == "DOUBLE" }}'
+      sequence:
+      - service: input_select.select_next
+        data:
+          entity_id: '{{ lighting_mode_input }}'
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_all }}'
+    default:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Unrecognized button action in {{area}}:{{ action }}
+  mode: single
+  variables:
+    action: '{{ trigger.payload_json["Button1"]["Action"] }}'
+    area: '{{ trigger.topic.split(''/'')[1] }}'
+    lights_all: '{# get a list of all lights in the selected area #} {{ expand(area_entities(area)
+      | select(''match'', ''light'')) | map(attribute=''entity_id'') | list }}'
+    lights_on: '{# filter the list to see if we have any lights already on #} {{ lights_all
+      | select(''is_state'', ''on'') | list }}'
+    lights_status: '{# if any light is on, this is ON, otherwise OFF #} {% if lights_on|length
+      > 0 %} {{ ''ON'' }} {% else %} {{ ''OFF'' }} {% endif %}'
+    lighting_mode: '{{ expand(area_entities(area) | select(''match'',''input_select''))
+      | selectattr(''entity_id'', ''contains'', ''_lighting_state'') | map(attribute=''state'')
+      | list }}'
+    lighting_mode_input: '{{ expand(area_entities(area)) | selectattr(''entity_id'',''contains'',''_lighting_state'')
+      | map(attribute=''entity_id'') | list }}'

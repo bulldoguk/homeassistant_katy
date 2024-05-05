@@ -1,0 +1,14 @@
+- id: '1696725177200'
+  alias: Early morning lights
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:00:00
+  condition: []
+  action:
+  - service: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.sunrise
+  mode: single
+  

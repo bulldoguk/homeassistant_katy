@@ -8,7 +8,13 @@ frontend:
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
 
-automation: !include automations.yaml
+# My own handmade automations
+automation manual: !include_dir_merge_list automations/
+
+# Automations I create in the UI
+automation ui: !include automations.yaml
+
+# automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 

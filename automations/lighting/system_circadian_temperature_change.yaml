@@ -1,0 +1,84 @@
+- id: '1703727295907'
+  alias: System circadian temperature change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_number.circadian_temperature
+  - platform: state
+    entity_id:
+    - input_select.family_lighting_state
+    - input_select.hallway_lighting_state
+    - input_select.kitchen_lighting_state
+    - input_select.gary_office_lighting_state
+    to: Circadian
+  condition: []
+  action:
+  - service: logbook.log
+    data:
+      name: System circadian
+      message: Running circadian
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_brightness | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_brightness }}'
+          brightness: '{{ states(''input_number.circadian_elevation_brightness'')
+            }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_color | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_color }}'
+          brightness_pct: '{{ states(''input_number.circadian_brightness_percentage'')
+            }}'
+          hs_color:
+          - '{{ states(''input_number.circadian_hue_value'') }}'
+          - '{{ states(''input_number.circadian_saturation'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ lights_dim_temperature | length > 0 }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: '{{ lights_dim_temperature }}'
+          brightness: '{{ states(''input_number.circadian_elevation_brightness'')
+            }}'
+          color_temp_kelvin: '{{ states(''input_number.circadian_temperature'') }}'
+  mode: single
+  variables:
+    all_areas: "{% set areas = states\n  | selectattr('attributes.device_class', 'defined')
+      \n  | map(attribute='entity_id')\n  | map('area_id') | unique | reject('none')
+      | list %}\n{{ areas }}"
+    circadian_areas: "{% set return_list = namespace(areas=[], status=[], result=[])
+      %}\n{% for area in all_areas %}\n  {% set status_input = (expand(area_entities(area)
+      | select('match', 'input_select.*_lighting_state')) | map(attribute=\"entity_id\")
+      | list) %}\n  {% if status_input[0] is defined %}\n    {% if states(status_input[0]|string)
+      == 'Circadian' %}\n      {% set return_list.areas = return_list.areas + [area]
+      %}\n    {% endif %}\n  {% else %}\n    {% set return_list.areas = return_list.areas
+      + [area] %}\n  {% endif %}\n{% endfor %}\n{{ return_list.areas }}"
+    target_lights: "{% set lights = namespace(target_lights=[]) %}\n{% for area in
+      circadian_areas %}\n  {% set lights.target_lights = lights.target_lights + (expand(area_entities(area)
+      | select('match', 'light')) | selectattr('state','eq', 'on') | map(attribute='entity_id')
+      | list) %}\n{% endfor %}\n{{ lights.target_lights }}"
+    lights_dim_brightness: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''brightness'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_temperature: '{%- set lights_select = namespace(entities=[]) -%} {%-
+      for i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'')
+      == ''color_temp'' -%} {%- set lights_select.entities = lights_select.entities
+      + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities }}'
+    lights_dim_color: '{%- set lights_select = namespace(entities=[]) -%} {%- for
+      i_entity in target_lights -%} {%- if state_attr(i_entity,''color_mode'') in
+      [''rgb'',''rgbw'',''rgbww'',''xy'',''hs''] -%} {%- set lights_select.entities
+      = lights_select.entities + [i_entity] -%} {%- endif -%} {%- endfor -%} {{ lights_select.entities
+      }}'
+      

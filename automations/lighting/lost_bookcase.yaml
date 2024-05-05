@@ -1,0 +1,45 @@
+- id: '1705886585664'
+  alias: Lost bookcases
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{% if is_state(''light.bookcase_1'', ''unavailable'') %}true{%
+      endif %}'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: template
+    value_template: '{% if is_state(''light.bookcase_2'', ''unavailable'') %}true{%
+      endif %}'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    metadata: {}
+    data:
+      message: Lost bookcase
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - a52f61994ca52e4d07947eb67e6ee1ac
+      - 40a89e825655c8d7e3c023c7a6f6ced2
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 20
+      milliseconds: 0
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - a52f61994ca52e4d07947eb67e6ee1ac
+      - 40a89e825655c8d7e3c023c7a6f6ced2
+  mode: single
+  

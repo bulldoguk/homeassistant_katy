@@ -1,0 +1,28 @@
+- id: '1695216825714'
+  alias: SpeedTest update
+  description: Update SpeedTest data every 10 hours
+  trigger:
+  - platform: time_pattern
+    minutes: '5'
+  - platform: time_pattern
+    minutes: '20'
+  - platform: time_pattern
+    minutes: '35'
+  - platform: time_pattern
+    minutes: '50'
+  condition:
+  - type: is_value
+    condition: device
+    device_id: 15dc3140659f3d90c5d70c89bd79685c
+    entity_id: defd320bc5e0e25e9c5617a71da0c321
+    domain: sensor
+    below: 75
+  action:
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id:
+      - sensor.speedtest_download
+      - sensor.speedtest_ping
+  mode: single
+  
