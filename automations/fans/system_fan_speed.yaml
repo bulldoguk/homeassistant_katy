@@ -3,7 +3,7 @@
   description: Gives a system fan speed based on the current temperature
   trigger:
   - platform: time_pattern
-    seconds: /5
+    minutes: /15
   condition: []
   action:
   - service: input_number.set_value
