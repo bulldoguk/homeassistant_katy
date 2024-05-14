@@ -14,8 +14,9 @@ automation manual: !include_dir_merge_list automations/
 # Automations I create in the UI
 automation ui: !include automations.yaml
 
-# automation: !include automations.yaml
-script: !include scripts.yaml
+script manual: !include_dir_merge_list scripts/
+script ui: !include scripts.yaml
+
 scene: !include scenes.yaml
 
 homeassistant:
@@ -69,16 +70,16 @@ logger:
   default: info
   logs:
     homeassistant.core: info
-    homeassistant.components.zha: debug
-    bellows.zigbee.application: debug
-    bellows.ezsp: debug
-    zigpy: debug
-    zigpy_deconz.zigbee.application: debug
-    zigpy_deconz.api: debug
-    zigpy_xbee.zigbee.application: debug
-    zigpy_xbee.api: debug
-    zigpy_zigate: debug
-    zigpy_znp: debug
-    zhaquirks: debug
-    tuya: debug
+    homeassistant.components.zha: info
+    bellows.zigbee.application: info
+    bellows.ezsp: info
+    zigpy: info
+    zigpy_deconz.zigbee.application: info
+    zigpy_deconz.api: info
+    zigpy_xbee.zigbee.application: info
+    zigpy_xbee.api: info
+    zigpy_zigate: info
+    zigpy_znp: info
+    zhaquirks: info
+    tuya: info
     

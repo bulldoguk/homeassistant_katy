@@ -1,0 +1,27 @@
+- id: 'system_fan_speed'
+  alias: System fan speed calculation
+  description: Gives a system fan speed based on the current temperature
+  trigger:
+  - platform: time_pattern
+    seconds: /5
+  condition: []
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.system_fan_speed
+      value: '{{ system_fan_speed }}'
+  mode: single
+  variables:
+    current_temperature: '{{ state_attr("weather.forecast_katy", "temperature") | int }}'
+    temperature_range: '{{ (states("input_number.system_fan_maximum_temperature") | float - states("input_number.system_fan_minimum_temperature") | float) }}'
+    current_delta: '{{ (current_temperature - states("input_number.system_fan_minimum_temperature") | int) }}'
+    percentage: '{{ ([( current_delta**2 * 100 / temperature_range**2 )|int, 0]|max) }}'
+    
+    system_fan_speed: >-
+      {%- if percentage <= 100 -%}
+      {{ percentage }}
+      {%- else -%}
+      {{ 100 }}
+      {%- endif -%}
+  
+  

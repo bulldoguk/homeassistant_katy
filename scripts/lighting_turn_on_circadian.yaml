@@ -1,0 +1,16 @@
+turn_on_lights_in_area:
+  alias: Turn On Lights in Area
+  description: Turn on all lights in a specific area
+  trigger:
+    platform: state
+    entity_id: input_text.area
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: >
+          {% set area = states('input_text.area') %}
+          {% for light in states.light %}
+            {% if area in light.attributes.area %}
+              {{ light.entity_id }},
+            {% endif %}
+          {% endfor %}
