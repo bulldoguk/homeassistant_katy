@@ -1,16 +1,26 @@
 - id: 'system_fan_speed'
   alias: System fan speed calculation
   description: Gives a system fan speed based on the current temperature
+
+  # Trigger: Runs every 15 minutes
   trigger:
   - platform: time_pattern
     minutes: /15
+
+  # Condition: No conditions specified
   condition: []
+
+  # Action: Sets the value of the input_number.system_fan_speed entity to the calculated system fan speed
   action:
   - service: input_number.set_value
     data_template:
       entity_id: input_number.system_fan_speed
       value: '{{ system_fan_speed }}'
+
+  # Mode: Single execution mode
   mode: single
+
+  # Variables: Calculates the system fan speed based on the current temperature
   variables:
     current_temperature: '{{ state_attr("weather.forecast_katy", "temperature") | int }}'
     temperature_range: '{{ (states("input_number.system_fan_maximum_temperature") | float - states("input_number.system_fan_minimum_temperature") | float) }}'
@@ -23,5 +33,3 @@
       {%- else -%}
       {{ 100 }}
       {%- endif -%}
-  
-  

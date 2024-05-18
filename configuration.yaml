@@ -14,8 +14,11 @@ automation manual: !include_dir_merge_list automations/
 # Automations I create in the UI
 automation ui: !include automations.yaml
 
-script manual: !include_dir_merge_list scripts/
+# Scripts created and edited in the UI
 script ui: !include scripts.yaml
+
+# Scripts created and edited manually
+script manual: !include_dir_merge_named scripts/
 
 scene: !include scenes.yaml
 

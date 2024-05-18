@@ -1,5 +1,5 @@
-'1715049090481':
-  alias: New Script
+new_script_two:
+  alias: New Script two
   sequence:
   - type: turn_off
     device_id: 700f6cd0edecbf6e7f540f88a14981fc
